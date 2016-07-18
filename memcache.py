@@ -1268,7 +1268,10 @@ class Client(threading.local):
         if flags == 0:
             # Bare string
             if six.PY3:
-                val = buf.decode('utf8')
+                try:
+                    val = buf.decode('utf8')
+                except UnicodeDecodeError:
+                    val = buf
             else:
                 val = buf
         elif flags & Client._FLAG_INTEGER:
